@@ -1,3 +1,5 @@
+server:
+  port: 8080
 
 spring:
   application:
@@ -7,12 +9,13 @@ spring:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
     username: sa
-    password: password
+    password: 123
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     show-sql: true
     hibernate:
       ddl-auto: create-drop
-
-server:
-  port: 8080
+    defer-datasource-initialization: true
+  h2:
+    console:          # http://localhost:8080/h2-console
+      enabled: true

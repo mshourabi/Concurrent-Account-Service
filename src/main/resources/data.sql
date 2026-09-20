@@ -1,0 +1,4 @@
+INSERT INTO TBL_ACCOUNT (id, balance) VALUES ('A', 100);
+INSERT INTO TBL_ACCOUNT (id, balance) VALUES ('B', 200);
+INSERT INTO TBL_ACCOUNT (id, balance) VALUES ('C', 300);
+INSERT INTO TBL_ACCOUNT (id, balance) VALUES ('D', 400);
