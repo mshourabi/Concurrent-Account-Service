@@ -29,10 +29,10 @@ public class Transaction {
     private Long amount;
 
     @Column
-    private Long sourceAccountId;
+    private String sourceAccountId;
 
-    @Column(nullable = false)
-    private Long destinationAccountId;
+    @Column
+    private String destinationAccountId;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -45,7 +45,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(String transactionId, String requestHash, TransactionType type, Long amount, Long sourceAccountId, Long destinationAccountId) {
+    public Transaction(String transactionId, String requestHash, TransactionType type, Long amount, String sourceAccountId, String destinationAccountId) {
         this.transactionId = transactionId;
         this.requestHash = requestHash;
         this.type = type;
@@ -94,19 +94,19 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Long getSourceAccountId() {
+    public String getSourceAccountId() {
         return sourceAccountId;
     }
 
-    public void setSourceAccountId(Long sourceAccountId) {
+    public void setSourceAccountId(String sourceAccountId) {
         this.sourceAccountId = sourceAccountId;
     }
 
-    public Long getDestinationAccountId() {
+    public String getDestinationAccountId() {
         return destinationAccountId;
     }
 
-    public void setDestinationAccountId(Long destinationAccountId) {
+    public void setDestinationAccountId(String destinationAccountId) {
         this.destinationAccountId = destinationAccountId;
     }
 

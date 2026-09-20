@@ -7,29 +7,25 @@ import jakarta.persistence.*;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private String id;
 
     @Column(nullable = false)
     private long balance;
 
-    @Version
-    private Long version;
 
     public Account() {
     }
 
-    public Account(int id, Long balance, Long version) {
+    public Account(String id, Long balance) {
         this.id = id;
         this.balance = balance;
-        this.version = version;
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -41,11 +37,4 @@ public class Account {
         this.balance = balance;
     }
 
-    public Long getVersion() {
-        return version;
-    }
-
-    public void setVersion(Long version) {
-        this.version = version;
-    }
 }

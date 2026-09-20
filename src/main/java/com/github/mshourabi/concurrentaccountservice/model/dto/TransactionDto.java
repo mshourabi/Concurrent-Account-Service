@@ -13,8 +13,8 @@ public class TransactionDto {
             String requestHashCode,
             TransactionType type,
             Long amount,
-            Long sourceAccountId,
-            Long destinationAccountId) {
+            String sourceAccountId,
+            String destinationAccountId) {
 
 
         public static Transaction map(CreateRequest createRequest) {
@@ -33,8 +33,8 @@ public class TransactionDto {
             String transactionId,
             TransactionType type,
             TransactionStatus status,
-            Long sourceAccountId,
-            Long destinationAccountId,
+            String sourceAccountId,
+            String destinationAccountId,
             Long amount,
             LocalDateTime createdAt
     ) {

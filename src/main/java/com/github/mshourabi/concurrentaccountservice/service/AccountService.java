@@ -16,7 +16,7 @@ public class AccountService {
 
 
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
-    public Account findAccountById(Long id) {
+    public Account findAccountById(String id) {
         return repository.findById(id).orElseThrow(()-> new RuntimeException("account not found"));
     }
 

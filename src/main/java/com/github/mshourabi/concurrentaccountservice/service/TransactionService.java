@@ -90,14 +90,14 @@ public class TransactionService {
     }
 
 
-    private Account checkDestinationAccount(TransactionType type, Long destinationAccountId) {
+    private Account checkDestinationAccount(TransactionType type, String destinationAccountId) {
         if (type.equals(TransactionType.TRANSFER) || type.equals(TransactionType.CREDIT)) {
             return accountService.findAccountById(destinationAccountId);
         }
         return null;
     }
 
-    private Account checkBalanceInSourceAccount(TransactionType type, Long sourceAccountId, Long amount) {
+    private Account checkBalanceInSourceAccount(TransactionType type, String sourceAccountId, Long amount) {
         if (type.equals(TransactionType.TRANSFER) || type.equals(TransactionType.DEBIT)) {
             Account sourceAccount = accountService.findAccountById(sourceAccountId);
             if (sourceAccount.getBalance() < amount) {
