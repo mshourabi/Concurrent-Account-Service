@@ -6,6 +6,8 @@ import com.github.mshourabi.concurrentaccountservice.model.dto.TransactionDto;
 import com.github.mshourabi.concurrentaccountservice.model.entity.Account;
 import com.github.mshourabi.concurrentaccountservice.model.entity.Transaction;
 import com.github.mshourabi.concurrentaccountservice.repository.TransactionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,24 +17,16 @@ import java.util.Optional;
 @Service
 public class TransactionService {
 
+    @Lazy
+    @Autowired
+    private TransactionService self;
+
     private final TransactionRepository repository;
-    private final TransactionService self;
     private final AccountService accountService;
 
-    public TransactionService(TransactionRepository repository, TransactionService self, AccountService accountService) {
+    public TransactionService(TransactionRepository repository, AccountService accountService) {
         this.repository = repository;
-        this.self = self;
         this.accountService = accountService;
-    }
-
-    /**
-     *
-     * @param transactionId
-     * @return
-     */
-    @Transactional(readOnly = true, rollbackFor = Throwable.class)
-    public Optional<Transaction> findTransactionById(String transactionId) {
-        return repository.findByTransactionId(transactionId);
     }
 
 
@@ -62,9 +56,7 @@ public class TransactionService {
                 accountService.save(sourceAccount);
                 accountService.save(destinationAccount);
             }
-            default -> {
-                throw new RuntimeException("invalid transaction type.");
-            }
+            default -> throw new RuntimeException("invalid transaction type.");
         }
 
         try {
@@ -77,7 +69,6 @@ public class TransactionService {
                 throw new RuntimeException("The transactionId is already used by another request.");
             }
             return concurrentTransaction;
-
         }
     }
 
@@ -122,8 +113,9 @@ public class TransactionService {
      * @param createRequest
      * @return
      */
-    private Transaction checkIfTransactionExists(TransactionDto.CreateRequest createRequest) {
-        Optional<Transaction> optional = self.findTransactionById(createRequest.transactionId());
+    @Transactional(readOnly = true, rollbackFor = Throwable.class)
+    public Transaction checkIfTransactionExists(TransactionDto.CreateRequest createRequest) {
+        Optional<Transaction> optional = repository.findByTransactionId(createRequest.transactionId());
 
         if (optional.isPresent()) {
             Transaction transaction = optional.get();
@@ -136,5 +128,4 @@ public class TransactionService {
         }
         return null;
     }
-
 }
