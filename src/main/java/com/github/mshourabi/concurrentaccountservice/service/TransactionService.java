@@ -17,10 +17,6 @@ import java.util.Optional;
 @Service
 public class TransactionService {
 
-    @Lazy
-    @Autowired
-    private TransactionService self;
-
     private final TransactionRepository repository;
     private final AccountService accountService;
 
@@ -73,23 +69,6 @@ public class TransactionService {
     }
 
 
-    /**
-     *
-     * @param createRequest
-     * @return
-     */
-    public TransactionDto.CreateResponse createTransaction(TransactionDto.CreateRequest createRequest) {
-        Transaction transaction = self.checkIfTransactionExists(createRequest);
-        if  (transaction == null) {
-            checkDestinationAccount(createRequest.type(), createRequest.destinationAccountId());
-            checkBalanceInSourceAccount(createRequest.type(), createRequest.sourceAccountId(), createRequest.amount());
-            transaction = TransactionDto.CreateRequest.map(createRequest);
-            transaction = self.save(transaction);
-        }
-        return TransactionDto.CreateResponse.map(transaction);
-    }
-
-
     private Account checkDestinationAccount(TransactionType type, String destinationAccountId) {
         if (type.equals(TransactionType.TRANSFER) || type.equals(TransactionType.CREDIT)) {
             return accountService.findAccountById(destinationAccountId);
@@ -110,22 +89,12 @@ public class TransactionService {
 
     /**
      *
-     * @param createRequest
+     * @param transactionId
      * @return
      */
     @Transactional(readOnly = true, rollbackFor = Throwable.class)
-    public Transaction checkIfTransactionExists(TransactionDto.CreateRequest createRequest) {
-        Optional<Transaction> optional = repository.findByTransactionId(createRequest.transactionId());
-
-        if (optional.isPresent()) {
-            Transaction transaction = optional.get();
-
-            if (!transaction.getRequestHash().equals(createRequest.requestHashCode())) {
-                throw new RuntimeException("The transactionId is duplicated.");
-            } else {
-                return optional.get();
-            }
-        }
-        return null;
+    public Transaction checkIfTransactionExists(String transactionId) {
+        Optional<Transaction> optional = repository.findByTransactionId(transactionId);
+        return optional.orElse(null);
     }
 }

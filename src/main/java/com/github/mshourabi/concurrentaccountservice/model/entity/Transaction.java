@@ -20,7 +20,7 @@ public class Transaction {
     @Column(nullable = false, unique = true)
     private String transactionId;
 
-    @Column(nullable = false)
+    @Column()
     private String requestHash;
 
     @Column(nullable = false)
