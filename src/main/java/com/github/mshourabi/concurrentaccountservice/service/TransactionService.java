@@ -2,12 +2,9 @@ package com.github.mshourabi.concurrentaccountservice.service;
 
 import com.github.mshourabi.concurrentaccountservice.enums.TransactionStatus;
 import com.github.mshourabi.concurrentaccountservice.enums.TransactionType;
-import com.github.mshourabi.concurrentaccountservice.model.dto.TransactionDto;
 import com.github.mshourabi.concurrentaccountservice.model.entity.Account;
 import com.github.mshourabi.concurrentaccountservice.model.entity.Transaction;
 import com.github.mshourabi.concurrentaccountservice.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,7 +29,7 @@ public class TransactionService {
      * @return
      */
     @Transactional(rollbackFor = Throwable.class)
-    public Transaction save(Transaction transaction) {
+    public Transaction executeTransaction(Transaction transaction) {
         Account destinationAccount = checkDestinationAccount(transaction.getType(), transaction.getDestinationAccountId());
         Account sourceAccount = checkBalanceInSourceAccount(transaction.getType(), transaction.getSourceAccountId(), transaction.getAmount());
 

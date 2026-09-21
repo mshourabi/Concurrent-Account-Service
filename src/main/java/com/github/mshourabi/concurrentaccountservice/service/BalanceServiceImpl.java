@@ -23,7 +23,7 @@ public class BalanceServiceImpl implements BalanceService {
         if (transaction == null) {
             accountService.findAccountById(accountId);
             transaction = new Transaction(transactionId, null, type, amount, null, accountId);
-            transactionService.save(transaction);
+            transactionService.executeTransaction(transaction);
         }
     }
 
@@ -37,7 +37,7 @@ public class BalanceServiceImpl implements BalanceService {
                 throw new RuntimeException("Insufficient funds");
             }
             transaction = new Transaction(transactionId, null, type, amount, accountId, null);
-            transactionService.save(transaction);
+            transactionService.executeTransaction(transaction);
         }
     }
 
@@ -49,7 +49,7 @@ public class BalanceServiceImpl implements BalanceService {
             accountService.findAccountById(sourceAccountId);
             accountService.findAccountById(destinationAccountId);
             transaction = new Transaction(transactionId, null, type, amount, sourceAccountId, destinationAccountId);
-            transactionService.save(transaction);
+            transactionService.executeTransaction(transaction);
         }
     }
 
