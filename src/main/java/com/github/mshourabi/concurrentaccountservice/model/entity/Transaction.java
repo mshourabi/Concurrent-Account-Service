@@ -40,6 +40,9 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionStatus status;
 
+    @Version
+    private long version;
+
     @CreatedDate
     private Instant createdAt;
 

@@ -12,6 +12,8 @@ public class Account {
     @Column(nullable = false)
     private long balance;
 
+    @Version
+    private long version;
 
     public Account() {
     }
