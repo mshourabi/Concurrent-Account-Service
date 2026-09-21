@@ -4,11 +4,13 @@ import com.github.mshourabi.concurrentaccountservice.enums.TransactionStatus;
 import com.github.mshourabi.concurrentaccountservice.enums.TransactionType;
 import jakarta.persistence.*;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.Instant;
 
 @Table(name = "TBL_TRANSACTION")
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 public class Transaction {
 
     @Id

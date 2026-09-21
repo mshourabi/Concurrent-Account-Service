@@ -79,7 +79,7 @@ public class TransactionService {
      * @return
      */
     public TransactionDto.CreateResponse createTransaction(TransactionDto.CreateRequest createRequest) {
-        Transaction transaction = checkIfTransactionExists(createRequest);
+        Transaction transaction = self.checkIfTransactionExists(createRequest);
         if  (transaction == null) {
             checkDestinationAccount(createRequest.type(), createRequest.destinationAccountId());
             checkBalanceInSourceAccount(createRequest.type(), createRequest.sourceAccountId(), createRequest.amount());
