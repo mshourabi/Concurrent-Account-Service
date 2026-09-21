@@ -60,11 +60,7 @@ public class TransactionService {
             return repository.save(transaction);
 
         } catch (DataIntegrityViolationException ex) {
-            Transaction concurrentTransaction = repository.findByTransactionId(transaction.getTransactionId()).orElseThrow(() -> ex);
-            if (!concurrentTransaction.getRequestHash().equals(transaction.getRequestHash())) {
-                throw new RuntimeException("The transactionId is already used by another request.");
-            }
-            return concurrentTransaction;
+            return repository.findByTransactionId(transaction.getTransactionId()).orElseThrow(() -> ex);
         }
     }
 

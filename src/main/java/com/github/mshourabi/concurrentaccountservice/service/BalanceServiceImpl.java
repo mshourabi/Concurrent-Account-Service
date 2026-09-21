@@ -1,6 +1,7 @@
 package com.github.mshourabi.concurrentaccountservice.service;
 
 import com.github.mshourabi.concurrentaccountservice.enums.TransactionType;
+import com.github.mshourabi.concurrentaccountservice.model.entity.Account;
 import com.github.mshourabi.concurrentaccountservice.model.entity.Transaction;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +32,10 @@ public class BalanceServiceImpl implements BalanceService {
         TransactionType type = TransactionType.DEBIT;
         Transaction transaction = transactionService.checkIfTransactionExists(transactionId);
         if (transaction == null) {
-            accountService.findAccountById(accountId);
+            Account account = accountService.findAccountById(accountId);
+            if (account.getBalance() < amount) {
+                throw new RuntimeException("Insufficient funds");
+            }
             transaction = new Transaction(transactionId, null, type, amount, accountId, null);
             transactionService.save(transaction);
         }
