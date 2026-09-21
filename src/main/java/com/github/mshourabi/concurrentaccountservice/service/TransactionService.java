@@ -52,6 +52,8 @@ public class TransactionService {
             default -> throw new RuntimeException("invalid transaction type.");
         }
 
+        sleep(500);   // add this sleep for concurrency test - this provided more possibility concurrency access to DB record
+
         try {
             transaction.setStatus(TransactionStatus.COMPLETED);
             return repository.save(transaction);
@@ -61,6 +63,14 @@ public class TransactionService {
         }
     }
 
+
+    private void sleep(long millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private Account checkDestinationAccount(TransactionType type, String destinationAccountId) {
         if (type.equals(TransactionType.TRANSFER) || type.equals(TransactionType.CREDIT)) {
