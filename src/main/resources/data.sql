@@ -19,4 +19,10 @@ INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('P', 1700, 0);
 INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('Q', 1800, 0);
 INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('R', 1900, 0);
 INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('S', 2000, 0);
+
 INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('T', 2100, 0);
+INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('U', 2200, 0);
+INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('V', 2300, 0);
+INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('W', 2400, 0);
+INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('X', 2500, 0);
+INSERT INTO TBL_ACCOUNT (id, balance, version) VALUES ('Y', 2600, 0);
