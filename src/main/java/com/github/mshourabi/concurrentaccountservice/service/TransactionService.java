@@ -59,6 +59,7 @@ public class TransactionService {
             return repository.save(transaction);
 
         } catch (DataIntegrityViolationException ex) {
+            // transaction unique
             return repository.findByTransactionId(transaction.getTransactionId()).orElseThrow(() -> ex);
         }
     }
