@@ -9,23 +9,30 @@ import org.springframework.stereotype.Service;
 public class TransactionExecutor {
 
     private final BalanceService balanceService;
+    private final TransactionStatistics transactionStatistics;
 
-    public TransactionExecutor(BalanceService balanceService) {
+    public TransactionExecutor(BalanceService balanceService,  TransactionStatistics transactionStatistics) {
         this.balanceService = balanceService;
+        this.transactionStatistics = transactionStatistics;
     }
 
     @Async("transactionTaskExecutor")
     public void execute(TransactionRequestDto dto) {
+        try {
+            switch (dto.type()) {
+                case CREDIT -> balanceService.credit(dto.destinationAccountId(), dto.amount(), dto.transactionId());
 
-        switch (dto.type()) {
-            case CREDIT -> balanceService.credit(dto.destinationAccount(), dto.amount(), dto.transactionId());
+                case DEBIT -> balanceService.debit(dto.sourceAccountId(), dto.amount(), dto.transactionId());
 
-            case DEBIT -> balanceService.debit(dto.sourceAccount(), dto.amount(), dto.transactionId());
+                case TRANSFER ->
+                        balanceService.transfer(dto.sourceAccountId(), dto.destinationAccountId(), dto.amount(), dto.transactionId());
 
-            case TRANSFER ->
-                    balanceService.transfer(dto.sourceAccount(), dto.destinationAccount(), dto.amount(), dto.transactionId());
-
-            default -> System.out.println("Invalid transaction type, transactionId: " + dto.transactionId());
+                default -> System.out.println("Invalid transaction type, transactionId: " + dto.transactionId());
+            }
+        } catch (RuntimeException ex) {
+            transactionStatistics.errors.put(dto.transactionId() ,ex);
+        } finally {
+            transactionStatistics.finished.incrementAndGet();
         }
     }
 }
