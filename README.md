@@ -112,6 +112,7 @@ docker compose up -d
 
 
 
+
 ## Test Execution | اجرای تست‌ها
 
 تست‌های ایجادشده از نوع **Integration Test** هستند؛ بنابراین برای اجرای آن‌ها، **Kafka** باید در دسترس باشد.
@@ -123,11 +124,14 @@ docker compose up -d
 در مسیر زیر دستور مربوطه را اجرا کنید:
 
 
+
 <div dir="ltr">
+
 ```powershell
 cd Concurrent-Account-Service\docker-compose
 docker compose up -d
 ```
+
 </div>
 
 
